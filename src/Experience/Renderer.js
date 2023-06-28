@@ -1,5 +1,7 @@
 import Experience from "./Experience";
 import * as THREE from "three";
+import Stats from "stats.js";
+
 export default class Renderer {
   constructor() {
     this.experience = new Experience();
@@ -8,11 +10,17 @@ export default class Renderer {
     this.canvas = this.experience.canvas;
     this.camera = this.experience.camera;
     this.setInstance();
+    this.performanceMonitor();
   }
-
+  performanceMonitor() {
+    this.stats = new Stats();
+    this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild(this.stats.dom);
+  }
   setInstance() {
     this.instance = new THREE.WebGLRenderer({
       canvas: this.canvas,
+
       antialias: true,
       logarithmicDepthBuffer: true,
     });
@@ -22,7 +30,7 @@ export default class Renderer {
     this.instance.toneMappingExposure = 1.75;
     this.instance.shadowMap.enabled = true;
     this.instance.shadowMap.type = THREE.PCFSoftShadowMap;
-    this.instance.setClearColor("#211d20", 5);
+    // this.instance.setClearColor("#211d20", 5);
     this.instance.setSize(this.sizes.width, this.sizes.height);
     this.instance.setPixelRatio(this.sizes.pixelRatio);
   }
@@ -34,5 +42,10 @@ export default class Renderer {
 
   update() {
     this.instance.render(this.scene, this.camera.instance);
+    this.stats.begin();
+
+    // ...
+
+    this.stats.end();
   }
 }

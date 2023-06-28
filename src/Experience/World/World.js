@@ -12,6 +12,7 @@ export default class World {
     this.experience = new Experience();
     this.scene = this.experience.scene;
     this.resources = this.experience.resources;
+
     //Test cube
 
     this.resources.on("resourcesLoaded", () => {
@@ -24,10 +25,10 @@ export default class World {
 
       this.environment = new Environment();
       this.camerFPP = new CameraFPP();
-     
+      // this.scene.environment = this.resources.items["clouds"];
     });
   }
-  
+
   update() {
     // if (this.tranformControlls) {
     //   this.tranformControlls.checkBoundaries();

@@ -5,7 +5,7 @@ export default class Floor {
     this.experience = new Experience();
     this.scene = this.experience.scene;
     this.resources = this.experience.resources;
-    console.log("working");
+
     // Setup
     this.boundary = this.experience.boundary;
     this.setGeometry();
@@ -47,30 +47,26 @@ export default class Floor {
     floorGeometry = floorGeometry.toNonIndexed(); // ensure each face has unique vertices
 
     position = floorGeometry.attributes.position;
-    // const colorsFloor = [];
-
-    // for (let i = 0, l = position.count; i < l; i++) {
-    //   color.setHSL(
-    //     1, // Math.random() * 0.3 + 0.5,
-    //     1, // 0.75,
-    //     1, // Math.random() * 0.25 + 0.75,
-    //     THREE.SRGBColorSpace
-    //   );
-    //   colorsFloor.push(color.r, color.g, color.b);
-    // }
-
-    // floorGeometry.setAttribute(
-    //   "color",
-    //   new THREE.Float32BufferAttribute(colorsFloor, 3)
-    // );
 
     const floorMaterial = new THREE.MeshStandardMaterial({
       map: this.textures.color,
       normalMap: this.textures.normal,
+      side: THREE.DoubleSide,
     });
 
     this.floor = new THREE.Mesh(floorGeometry, floorMaterial);
     this.floor.name = "floor";
+    // this.floor.receiveShadow = true;
+
+    //Stoping orbit controls at some angle
+    const maxPolarAngle = Math.acos(
+      this.experience.camera.instance.position
+        .clone()
+        .normalize()
+        .dot(this.floor.position.clone().normalize())
+    );
+    this.experience.camera.orbitControl.maxPolarAngle = maxPolarAngle;
+
     this.scene.add(this.floor);
   }
 
@@ -79,12 +75,13 @@ export default class Floor {
 
     this.textures.color = this.resources.items.grassColorTexture;
     this.textures.color.encoding = THREE.sRGBEncoding;
-    this.textures.color.repeat.set(1.5, 1.5);
+    this.textures.color.repeat.set(300, 300);
+    // this.textures.offset.set(0.5, 0.5);
     this.textures.color.wrapS = THREE.RepeatWrapping;
     this.textures.color.wrapT = THREE.RepeatWrapping;
 
     this.textures.normal = this.resources.items.grassNormalTexture;
-    this.textures.normal.repeat.set(1.5, 1.5);
+    this.textures.normal.repeat.set(300, 300);
     this.textures.normal.wrapS = THREE.RepeatWrapping;
     this.textures.normal.wrapT = THREE.RepeatWrapping;
   }

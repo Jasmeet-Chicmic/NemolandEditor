@@ -8,60 +8,39 @@ export class TextureSelector {
     this.scene = this.Experience.scene;
     this.resources = this.Experience.resources;
     this.debug = this.Experience.debug;
-
     this.textures = [];
 
     this.createSelectors();
   }
 
   createSelectors() {
-    this.brickTexture = this.resources.items["brick"];
-    this.woodenTexture = this.resources.items["wooden"];
-    this.brickTexture.minFilter = THREE.LinearMipmapLinearFilter;
-    this.brickTexture.encoding = THREE.sRGBEncoding;
-    this.woodenTexture.minFilter = THREE.LinearMipmapLinearFilter;
-    this.woodenTexture.encoding = THREE.sRGBEncoding;
-
-    var brickImageButton = this.Experience.textureButtons.children[0];
-    var woodenImageButton = this.Experience.textureButtons.children[1];
-
-    this.addEventToTextureTypes(brickImageButton, woodenImageButton);
+    this.textures = {};
+    Object.keys(TEXTURE_TYPE).forEach((element, index) => {
+      this.texture = this.resources.items[`${element}`];
+      this.texture.minFilter = THREE.LinearMipmapLinearFilter;
+      this.texture.encoding = THREE.sRGBEncoding;
+      this.textures[`${element}`] = this.texture;
+    });
+    this.Experience.textureType = this.texture;
+    this.addEventToTextureTypes(this.Experience.textureButtons);
   }
-  checkPosition(old, nnew) {
-    if (
-      old.position.x === nnew.position.x &&
-      old.position.y === nnew.position.y &&
-      old.position.z === nnew.position.z
-    ) {
-      return true;
-    }
-    return false;
-  }
+
   setTexture(element) {
-    // console.log("element", element);
+    console.log("element", this.textures[element]);
+    this.textures[element].name = `${element}`;
+    this.Experience.textureType = this.textures[element];
+  }
 
-    this.obj = null;
-    if (element == TEXTURE_TYPE.BRICK) {
-      // this.Experience.textureType = "brick";
-      console.log("created");
-      this.brickTexture.name = "brick";
-      this.Experience.textureType = this.brickTexture;
-    } else if (element == TEXTURE_TYPE.WOODEN) {
-      this.woodenTexture.name = "wooden";
-      this.Experience.textureType = this.woodenTexture;
+  addEventToTextureTypes(textureButtons) {
+    let imgButtons = textureButtons.children;
+    for (
+      let element = 0;
+      element < Object.keys(TEXTURE_TYPE).length;
+      element++
+    ) {
+      imgButtons[element].addEventListener("click", () => {
+        this.setTexture(imgButtons[element].id);
+      });
     }
-  }
-  moveBox(element, position) {
-    element.object.position.set(position.y, 0, position.x);
-  }
-
-  addEventToTextureTypes(brick, wooden) {
-    brick.addEventListener("click", () => {
-      this.setTexture("1");
-    });
-
-    wooden.addEventListener("click", () => {
-      this.setTexture("2");
-    });
   }
 }

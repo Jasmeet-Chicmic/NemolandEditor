@@ -12,14 +12,36 @@ export default [
     ],
   },
   {
-    name: "wooden",
-    type: "texture",
-    path: "./textures/wooden/raw_plank_wall_diff_1k.jpg",
+    name: "clouds",
+    type: "cubeTexture",
+    path: [
+      "/textures/environmentMap/Clouds/px.png",
+      "/textures/environmentMap/Clouds/nx.png",
+      "/textures/environmentMap/Clouds/py.png",
+      "/textures/environmentMap/Clouds/ny.png",
+      "/textures/environmentMap/Clouds/pz.png",
+      "/textures/environmentMap/Clouds/nz.png",
+    ],
   },
   {
-    name: "brick",
+    name: "WOODEN",
     type: "texture",
-    path: "./textures/brick/brick_wall_02_diff_1k.jpg",
+    path: "./textures/box_textures/WOODEN.jpg",
+  },
+  {
+    name: "ROAD",
+    type: "texture",
+    path: "./textures/box_textures/ROAD.jpg",
+  },
+  {
+    name: "BRICK",
+    type: "texture",
+    path: "./textures/box_textures/BRICK.jpg",
+  },
+  {
+    name: "STONE",
+    type: "texture",
+    path: "./textures/box_textures/STONE.jpg",
   },
   // { name: "gltfTexture", type: "gltfModel", path: "/models/Fox/glTF/Fox.gltf" },
 
@@ -31,6 +53,6 @@ export default [
   {
     name: "grassNormalTexture",
     type: "texture",
-    path: "textures/dirt/normal.png",
+    path: "textures/dirt/normal.jpg",
   },
 ];

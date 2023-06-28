@@ -43,10 +43,10 @@ body
 }
 #saveButton:hover {
     background-color: transparent;
-    border: 2px solid white;
-    color: white;
+    border: 2px solid #007bff;
+    color: #007bff;
     /* transform: translateY(-2px); */
-    transform: perspective(800px) rotateX(360deg);
+  
   transition: background-color 0.3s, color 0.3s, transform 0.5s;
   }
 

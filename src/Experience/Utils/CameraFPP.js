@@ -8,6 +8,7 @@ export class CameraFPP {
     this.experience = new Experience();
     this.experience.crossHair_Button.style.display = "none";
     this.smooth = true;
+    this.box = new Box();
     this.createPointerLock();
   }
 
@@ -58,13 +59,15 @@ export class CameraFPP {
     // ...
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "q" && this.controls.isLocked) {
-        console.log("controlls unlocked");
+      if ((event.key === "q" || event.key === "Q") && this.controls.isLocked) {
         this.experience.camera.orbitControl.enabled = true;
         document.removeEventListener("keydown", onKeyDown);
         this.experience.crossHair_Button.style.display = "none";
         this.controls.unlock();
         this.experience.world.tranformControlls.transformControls.enabled = true;
+        this.experience.camera.orbitControl.object.position.copy(
+          this.experience.camera.instance.position
+        );
         this.controls.removeEventListener("change", () => {
           console.log(
             "camera position",
@@ -74,9 +77,12 @@ export class CameraFPP {
         this.experience.scene.add(
           this.experience.world.tranformControlls.transformControls
         );
-      } else if (event.key === "q" && !this.controls.isLocked) {
+      } else if (
+        (event.key === "q" || event.key === "Q") &&
+        !this.controls.isLocked
+      ) {
         this.controls.lock();
-        // this.createObject();
+
         this.experience.camera.orbitControl.enabled = false;
         this.experience.crossHair_Button.style.display = "block";
         // this.experience.world.tranformControlls.transformControls.enabled = false;
@@ -110,19 +116,10 @@ export class CameraFPP {
   }
 
   createObject(position) {
-    // document.addEventListener("mousedown", (event) => {
-    console.log("from createobject", position);
-    // if (event.button === 0) {
-    // Left mouse button
-    // Get the current camera position
-    // const { x, y, z } = this.experience.camera.instance.position;
+    let mesh = this.box.createBox(this.experience.textureType);
+    mesh.position.set(position.x, position.y, position.z);
 
-    let mesh = new Box(this.experience.textureType);
-    // Set the position of the sphere to the current camera position
-    mesh.boxMesh.position.set(position.x, position.y, position.z);
-
-    // Add the sphere to the scene
-    this.experience.parentGroup.add(mesh.boxMesh);
+    this.experience.parentGroup.add(mesh);
     // }
     // });
   }

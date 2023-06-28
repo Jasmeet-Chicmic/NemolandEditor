@@ -28,9 +28,9 @@ export default class Camera {
       5
     );
 
-    const helper = new THREE.CameraHelper(this.instance);
-    this.scene.add(helper);
-    this.scene.add(this.instance);
+    // const helper = new THREE.CameraHelper(this.instance);
+    // this.scene.add(helper);
+    // this.scene.add(this.instance);
   }
 
   setOrbitControl() {
@@ -40,6 +40,9 @@ export default class Camera {
       RIGHT: THREE.MOUSE.ROTATE, // Set the right mouse button to rotate
     };
     this.orbitControl.enableDamping = true;
+    this.orbitControl.minDistance = 10;
+    this.orbitControl.maxDistance = 100;
+   
     this.orbitControl.update();
   }
 
@@ -49,6 +52,8 @@ export default class Camera {
   }
 
   update() {
-    // this.orbitControl.update();
+    if (this.orbitControl.enabled == true) {
+      this.orbitControl.update();
+    }
   }
 }

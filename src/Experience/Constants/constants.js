@@ -1,4 +1,6 @@
 export const TEXTURE_TYPE = {
-  BRICK: 1,
-  WOODEN: 2,
+  BRICK: "BRICK",
+  WOODEN: "WOODEN",
+  ROAD: "ROAD",
+  STONE: "STONE",
 };
